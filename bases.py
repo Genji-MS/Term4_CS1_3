@@ -44,13 +44,26 @@ def encode(number, base):
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
     # √: Encode number in binary (base 2)
+    # return "{0:b}".format(number)
     if base == 2:
-        #binaryList = [1,2,4,8, 16,32,64,128, 256,512,1024,2048, 4096,8192,16384,32768]
-        #digList []
-        return "{0:b}".format(number)
+        binaryList=[]
+        while number:
+            if number%2 == 1:
+                number -=1
+                binaryList.append('1')
+            else:
+                binaryList.append('0')
+            number /= 2
+            number = int(number)
+        return ''.join(reversed(binaryList))
     # √: Encode number in hexadecimal (base 16)
+    # return hex(number)[2:]
     elif base == 16:
-        return hex(number)[2:]
+        hexList = []
+        while number:
+            number, remainder = divmod(number, 16)
+            hexList.append(string.hexdigits[remainder])
+        return ''.join(reversed(hexList))
     # √: Encode number in any base (2 up to 36)
     elif base >= 2 and base <= 36:
         decoded = []
@@ -111,4 +124,7 @@ def main():
 
 
 if __name__ == '__main__':
-    print(decode('10',16) )
+    print(encode(79,16) )
+
+#c          4         a
+#12 *16^3  +4 *16^2  +10 *16^1 = 3146
