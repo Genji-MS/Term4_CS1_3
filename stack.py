@@ -31,7 +31,7 @@ class LinkedStack(object):
         currentNode = self.head
         while currentNode != None:
             length +=1
-            currentNode = self.next
+            currentNode = currentNode.next
 
     def push(self, item):
         """Insert the given item on the top of this stack.
@@ -39,8 +39,7 @@ class LinkedStack(object):
         We only reassign the head to point to the new head, and update 'head' to our current item. No itteration
         """
         # √: Push given item
-        new_node = Node(item)
-        self.len +=1
+        new_node = item
         if self.head == None:
             self.head = self.tail = new_node
         else:
@@ -64,7 +63,7 @@ class LinkedStack(object):
         # √: Remove and return top item, if any
         value = self.peek
         if (self.peek == None):
-            raise ValueError('Item not found: {}'.format(item))
+            raise ValueError('Item not found')
         else:
             self.head = self.head.next
             return value
@@ -88,15 +87,26 @@ class ArrayStack(object):
 
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise."""
-        # TODO: Check if empty
+        # √: Check if empty
+        if len(self) == 0:
+            return True
+        return False
 
     def length(self):
         """Return the number of items in this stack."""
-        # TODO: Count number of items
+        # √: Count number of items
+        length = 0
+        if (self.is_empty() == True):
+            return length
+        for item in self.list:
+            length += 1
+        return length
 
     def push(self, item):
         """Insert the given item on the top of this stack.
-        Running time: O(???) – Why? [TODO]"""
+        Running time: O(n) – Why? [√]
+        list is lined up in memory, adding a new item at the head requires every item to be shifted by 1
+        """
         # TODO: Insert given item
 
     def peek(self):
@@ -110,8 +120,11 @@ class ArrayStack(object):
         Running time: O(???) – Why? [TODO]"""
         # TODO: Remove and return top item, if any
 
-
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
 Stack = LinkedStack
 # Stack = ArrayStack
+
+if __name__ == "__main__":
+    stack = LinkedStack([1,2,3,4])
+    stack.peek()
