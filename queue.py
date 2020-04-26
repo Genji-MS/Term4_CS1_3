@@ -21,27 +21,52 @@ class LinkedQueue(object):
 
     def is_empty(self):
         """Return True if this queue is empty, or False otherwise."""
-        # TODO: Check if empty
+        # √: Check if empty
+        if self.length == 0:
+            return True
+        if self.list.head is None:
+            return True
+        return False
 
     def length(self):
         """Return the number of items in this queue."""
-        # TODO: Count number of items
+        # √: Count number of items
+        length = 0
+        currentNode = self.list.head
+        while currentNode != None:
+            length +=1
+            currentNode = currentNode.next
+        return length
 
     def enqueue(self, item):
         """Insert the given item at the back of this queue.
-        Running time: O(???) – Why? [TODO]"""
-        # TODO: Insert given item
+        Running time: O(1) – Why? [√]
+            We are only modifying the tail item of the list, no walk needed
+        """
+        # √: Insert given item
+        self.list.append(item)
 
     def front(self):
         """Return the item at the front of this queue without removing it,
         or None if this queue is empty."""
-        # TODO: Return front item, if any
+        # √: Return front item, if any
+        if self.is_empty():
+            return None
+        return self.list.head.data
 
     def dequeue(self):
         """Remove and return the item at the front of this queue,
         or raise ValueError if this queue is empty.
-        Running time: O(???) – Why? [TODO]"""
-        # TODO: Remove and return front item, if any
+        Running time: O(1) – Why? [√]
+            No walk needed
+        """
+        # √: Remove and return front item, if any
+        value = self.front()
+        if value == None:
+            raise ValueError("Queue is empty")
+        self.list.delete(value)
+        return value
+
 
 
 # Implement ArrayQueue below, then change the assignment at the bottom
@@ -62,27 +87,51 @@ class ArrayQueue(object):
 
     def is_empty(self):
         """Return True if this queue is empty, or False otherwise."""
-        # TODO: Check if empty
+        # √: Check if empty
+        if len(self) == 0:
+            return True
+        return False
 
     def length(self):
         """Return the number of items in this queue."""
-        # TODO: Count number of items
+        # √: Count number of items
+        length = 0
+        if (self.is_empty() == True):
+            return length
+        for item in self.list:
+            length += 1
+        return length
 
     def enqueue(self, item):
         """Insert the given item at the back of this queue.
-        Running time: O(???) – Why? [TODO]"""
-        # TODO: Insert given item
+        Running time: O(1) – Why? [√]
+            Items in a list fill the same memory, adding an item at the back doens't need to move any data in memory
+            other then its own size
+        """
+        # √: Insert given item
+        self.list[self.length()] = item
 
     def front(self):
         """Return the item at the front of this queue without removing it,
         or None if this queue is empty."""
-        # TODO: Return front item, if any
+        # √: Return front item, if any
+        if self.is_empty():
+            return None
+        return self.list[0]
 
     def dequeue(self):
         """Remove and return the item at the front of this queue,
         or raise ValueError if this queue is empty.
-        Running time: O(???) – Why? [TODO]"""
-        # TODO: Remove and return front item, if any
+        Running time: O(n) – Why? [√]
+            All of the items in the list must be moved in memory
+        """
+        # √: Remove and return front item, if any
+        if self.is_empty():
+            return ValueError("Queue is empty")
+        item = self.list[0]
+        for i in range(self.length)-2:
+            self.list[i] = self.list[i+1]
+        return item
 
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below

@@ -21,17 +21,21 @@ class LinkedStack(object):
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise."""
         # √: Check if empty
-        if self.head is None:
+        if self.length == 0:
             return True
+        if self.list.head is None:
+            return True
+        return False
 
     def length(self):
         """Return the number of items in this stack."""
         # √: Count number of items
         length = 0
-        currentNode = self.head
+        currentNode = self.list.head
         while currentNode != None:
             length +=1
             currentNode = currentNode.next
+        return length
 
     def push(self, item):
         """Insert the given item on the top of this stack.
@@ -39,20 +43,15 @@ class LinkedStack(object):
         We only reassign the head to point to the new head, and update 'head' to our current item. No itteration
         """
         # √: Push given item
-        new_node = item
-        if self.head == None:
-            self.head = self.tail = new_node
-        else:
-            self.tail.next = new_node
-            self.tail = new_node
+        self.list.prepend(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty."""
         # √: Return top item, if any
-        if (self.is_empty == True):
+        if (self.is_empty()):
             return None
-        return self.head.data
+        return self.list.head.data
 
     def pop(self):
         """Remove and return the item on the top of this stack,
@@ -61,11 +60,11 @@ class LinkedStack(object):
         LinkedLists store data anywhere, no need to move anything around, Just update the head to the head.next. No itteration
         """
         # √: Remove and return top item, if any
-        value = self.peek
-        if (self.peek == None):
+        value = self.peek()
+        if (value == None):
             raise ValueError('Item not found')
         else:
-            self.head = self.head.next
+            self.list.delete(value)
             return value
 
 
@@ -107,18 +106,31 @@ class ArrayStack(object):
         Running time: O(n) – Why? [√]
         list is lined up in memory, adding a new item at the head requires every item to be shifted by 1
         """
-        # TODO: Insert given item
+        # √: Insert given item
+        for i in range(-1+1,0,-1):
+            self.list[i] = self.list[i-1]
+        self.list[0]= item
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty."""
-        # TODO: Return top item, if any
+        # √: Return top item, if any
+        if self.length >0:
+            return self.list[0]
+        return None
 
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty.
         Running time: O(???) – Why? [TODO]"""
-        # TODO: Remove and return top item, if any
+        # √: Remove and return top item, if any
+        if self.length == 0:
+            raise ValueError('Empty Stack')
+        item = self.list[0]
+        for i in range(0,self.length-2):
+            self.list[i] = self.list[i+1]
+        self.list[-1] = None
+        return item
 
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
